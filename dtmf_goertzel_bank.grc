@@ -1,0 +1,427 @@
+options:
+  parameters:
+    author: Ben Cometto
+    catch_exceptions: 'True'
+    category: '[DTMF]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb_qt_gui
+    hier_block_src_path: '.:'
+    id: dtmf_goertzel_bank
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: DTMF Goertzel Decoder Bank
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: freqtable
+  id: variable
+  parameters:
+    comment: ''
+    value: (697.0,770.0,852.0,941.0,1209.0,1336.0,1477.0,1633.0)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 8.0]
+    rotation: 0
+    state: enabled
+- name: thresh_absent
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 8.0]
+    rotation: 0
+    state: enabled
+- name: thresh_present
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.05'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [576, 8.0]
+    rotation: 0
+    state: enabled
+- name: blocks_and_xx_0
+  id: blocks_and_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: int
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1048, 208.0]
+    rotation: 0
+    state: enabled
+- name: blocks_and_xx_0_0
+  id: blocks_and_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: int
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1048, 296.0]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_mag_squared_0
+  id: blocks_complex_to_mag_squared
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 208.0]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_mag_squared_0_0
+  id: blocks_complex_to_mag_squared
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 296.0]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_mag_squared_0_0_0
+  id: blocks_complex_to_mag_squared
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 536.0]
+    rotation: 0
+    state: enabled
+- name: blocks_float_to_int_0
+  id: blocks_float_to_int
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [808, 200.0]
+    rotation: 0
+    state: enabled
+- name: blocks_float_to_int_0_0
+  id: blocks_float_to_int
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [808, 288.0]
+    rotation: 0
+    state: enabled
+- name: blocks_float_to_int_0_0_0
+  id: blocks_float_to_int
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [808, 528.0]
+    rotation: 0
+    state: enabled
+- name: blocks_threshold_ff_0
+  id: blocks_threshold_ff
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    high: thresh_present
+    init: '0'
+    low: thresh_absent
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 184.0]
+    rotation: 0
+    state: enabled
+- name: blocks_threshold_ff_0_0
+  id: blocks_threshold_ff
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    high: thresh_present
+    init: '0'
+    low: thresh_absent
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 272.0]
+    rotation: 0
+    state: enabled
+- name: blocks_threshold_ff_0_0_0
+  id: blocks_threshold_ff
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    high: thresh_present
+    init: '0'
+    low: thresh_absent
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 512.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      from gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other base classes\
+      \ are basic_block, decim_block, interp_block\n    \"\"\"Embedded Python Block\
+      \ example - a simple multiply const\"\"\"\n\n    def __init__(self, example_param=1.0):\
+      \  # only default arguments here\n        \"\"\"arguments to this function show\
+      \ up as parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n         \
+      \   self,\n            name='Embedded Python Block',   # will show up in GRC\n\
+      \            in_sig=[int,int],\n            out_sig=[np.float32]\n        )\n\
+      \        # if an attribute with the same name as a parameter is found,\n   \
+      \     # a callback is registered (properties work, too).\n        self.example_param\
+      \ = example_param\n        self.waiting_for_zero = False\n\n    def work(self,\
+      \ input_items, output_items):\n        \"\"\"example: multiply with constant\"\
+      \"\"\n        output_items[0][:] = input_items[0] * self.example_param\n\n \
+      \       if input_items[0] == 1:\n            output_items[0][:] = 1.0\n\n  \
+      \      return len(output_items[0])\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    example_param: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Embedded Python Block', 'blk', [('example_param', '1.0')], [('0',
+      'int', 1), ('1', 'int', 1)], [('0', 'float', 1)], 'Embedded Python Block example
+      - a simple multiply const', ['example_param'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1264, 224.0]
+    rotation: 0
+    state: enabled
+- name: goertzel_fc_0
+  id: goertzel_fc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    freq: freqtable[0]
+    len: goertzel_length
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 184.0]
+    rotation: 0
+    state: enabled
+- name: goertzel_fc_0_0
+  id: goertzel_fc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    freq: freqtable[1]
+    len: goertzel_length
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 272.0]
+    rotation: 0
+    state: enabled
+- name: goertzel_fc_0_0_0
+  id: goertzel_fc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    freq: freqtable[4]
+    len: goertzel_length
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 512.0]
+    rotation: 0
+    state: enabled
+- name: goertzel_length
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: ''
+    short_id: ''
+    type: ''
+    value: '1024'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 8.0]
+    rotation: 0
+    state: enabled
+- name: pad_source_0
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: in
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [104, 200.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: ''
+    short_id: ''
+    type: ''
+    value: '32000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 8.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [blocks_and_xx_0, '0', epy_block_0, '0']
+- [blocks_and_xx_0_0, '0', epy_block_0, '1']
+- [blocks_complex_to_mag_squared_0, '0', blocks_threshold_ff_0, '0']
+- [blocks_complex_to_mag_squared_0_0, '0', blocks_threshold_ff_0_0, '0']
+- [blocks_complex_to_mag_squared_0_0_0, '0', blocks_threshold_ff_0_0_0, '0']
+- [blocks_float_to_int_0, '0', blocks_and_xx_0, '0']
+- [blocks_float_to_int_0_0, '0', blocks_and_xx_0_0, '0']
+- [blocks_float_to_int_0_0_0, '0', blocks_and_xx_0, '1']
+- [blocks_float_to_int_0_0_0, '0', blocks_and_xx_0_0, '1']
+- [blocks_threshold_ff_0, '0', blocks_float_to_int_0, '0']
+- [blocks_threshold_ff_0_0, '0', blocks_float_to_int_0_0, '0']
+- [blocks_threshold_ff_0_0_0, '0', blocks_float_to_int_0_0_0, '0']
+- [goertzel_fc_0, '0', blocks_complex_to_mag_squared_0, '0']
+- [goertzel_fc_0_0, '0', blocks_complex_to_mag_squared_0_0, '0']
+- [goertzel_fc_0_0_0, '0', blocks_complex_to_mag_squared_0_0_0, '0']
+- [pad_source_0, '0', goertzel_fc_0, '0']
+- [pad_source_0, '0', goertzel_fc_0_0, '0']
+- [pad_source_0, '0', goertzel_fc_0_0_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.10.0

@@ -64,14 +64,20 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.sleeptime = sleeptime = 10
         self.samp_rate = samp_rate = 32000
+        self.ontime = ontime = 5
+        self.offtime = offtime = 1
+        self.message = message = "12"
+        self.default_message = default_message = "12 34 56 78 90 AB CD *#"
+        self.char_per_sec = char_per_sec = 1
 
         ##################################################
         # Blocks
         ##################################################
 
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
-            1, #size
+            samp_rate, #size
             samp_rate, #samp_rate
             "", #name
             1, #number of inputs
@@ -164,14 +170,14 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.goertzel_fc_0 = fft.goertzel_fc(samp_rate, 1, 697)
+        self.goertzel_fc_0 = fft.goertzel_fc(samp_rate, 2, 697)
         self.GRCdtmfgenerator_0 = GRCdtmfgenerator(
-            char_per_sec=0.8,
-            dtmftext='12 34 56 78 90 AB CD *#',
-            offtime=1,
-            ontime=5,
+            char_per_sec=char_per_sec,
+            dtmftext=message,
+            offtime=offtime,
+            ontime=ontime,
             samp_rate=samp_rate,
-            sleeptime=100,
+            sleeptime=sleeptime,
         )
 
         self.top_layout.addWidget(self.GRCdtmfgenerator_0)
@@ -193,6 +199,13 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
 
         event.accept()
 
+    def get_sleeptime(self):
+        return self.sleeptime
+
+    def set_sleeptime(self, sleeptime):
+        self.sleeptime = sleeptime
+        self.GRCdtmfgenerator_0.set_sleeptime(self.sleeptime)
+
     def get_samp_rate(self):
         return self.samp_rate
 
@@ -202,6 +215,40 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
         self.goertzel_fc_0.set_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+
+    def get_ontime(self):
+        return self.ontime
+
+    def set_ontime(self, ontime):
+        self.ontime = ontime
+        self.GRCdtmfgenerator_0.set_ontime(self.ontime)
+
+    def get_offtime(self):
+        return self.offtime
+
+    def set_offtime(self, offtime):
+        self.offtime = offtime
+        self.GRCdtmfgenerator_0.set_offtime(self.offtime)
+
+    def get_message(self):
+        return self.message
+
+    def set_message(self, message):
+        self.message = message
+        self.GRCdtmfgenerator_0.set_dtmftext(self.message)
+
+    def get_default_message(self):
+        return self.default_message
+
+    def set_default_message(self, default_message):
+        self.default_message = default_message
+
+    def get_char_per_sec(self):
+        return self.char_per_sec
+
+    def set_char_per_sec(self, char_per_sec):
+        self.char_per_sec = char_per_sec
+        self.GRCdtmfgenerator_0.set_char_per_sec(self.char_per_sec)
 
 
 
