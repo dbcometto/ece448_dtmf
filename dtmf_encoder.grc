@@ -73,7 +73,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '"12"'
+    value: '"12 45"'
   states:
     bus_sink: false
     bus_source: false
@@ -151,6 +151,43 @@ blocks:
     coordinate: [216, 248.0]
     rotation: 0
     state: enabled
+- name: blocks_vector_to_streams_0
+  id: blocks_vector_to_streams
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '4'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [808, 440.0]
+    rotation: 0
+    state: enabled
+- name: dtmf_goertzel_bank_0
+  id: dtmf_goertzel_bank
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gain: '3'
+    goertzel_length: '1024'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: '32000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [488, 472.0]
+    rotation: 0
+    state: enabled
 - name: qtgui_freq_sink_x_0
   id: qtgui_freq_sink_x
   parameters:
@@ -181,7 +218,7 @@ blocks:
     color8: '"dark red"'
     color9: '"dark green"'
     comment: ''
-    ctrlpanel: 'False'
+    ctrlpanel: 'True'
     fc: '0'
     fftsize: '1024'
     freqhalf: 'True'
@@ -232,9 +269,78 @@ blocks:
     coordinate: [488, 264.0]
     rotation: 0
     state: enabled
+- name: qtgui_number_sink_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_VERT
+    gui_hint: ''
+    label1: '1'
+    label10: ''
+    label2: '2'
+    label3: '3'
+    label4: '4'
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '1'
+    min: '0'
+    name: '""'
+    nconnections: '4'
+    type: byte
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.00001'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1008, 440.0]
+    rotation: 0
+    state: enabled
 
 connections:
+- [GRCdtmfgenerator_0, '0', dtmf_goertzel_bank_0, '0']
 - [GRCdtmfgenerator_0, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_vector_to_streams_0, '0', qtgui_number_sink_0, '0']
+- [blocks_vector_to_streams_0, '1', qtgui_number_sink_0, '1']
+- [blocks_vector_to_streams_0, '2', qtgui_number_sink_0, '2']
+- [blocks_vector_to_streams_0, '3', qtgui_number_sink_0, '3']
+- [dtmf_goertzel_bank_0, '0', blocks_vector_to_streams_0, '0']
 
 metadata:
   file_format: 1

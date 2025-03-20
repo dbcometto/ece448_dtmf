@@ -64,24 +64,40 @@ class goertzel_test(gr.top_block, Qt.QWidget):
         ##################################################
         self.thresh_present = thresh_present = 0.05
         self.thresh_absent = thresh_absent = 0.1
+        self.signal_freq2 = signal_freq2 = 1500
         self.signal_freq = signal_freq = 1000
+        self.signal_amplitude2 = signal_amplitude2 = 1
         self.signal_amplitude = signal_amplitude = 1
         self.samp_rate = samp_rate = 32000
+        self.goertzel_freq2 = goertzel_freq2 = 1500
         self.goertzel_freq = goertzel_freq = 1000
+        self.gain = gain = 1
 
         ##################################################
         # Blocks
         ##################################################
 
+        self._signal_freq2_range = qtgui.Range(0, 10000, 1, 1500, 200)
+        self._signal_freq2_win = qtgui.RangeWidget(self._signal_freq2_range, self.set_signal_freq2, "'signal_freq2'", "counter_slider", int, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._signal_freq2_win)
         self._signal_freq_range = qtgui.Range(0, 10000, 1, 1000, 200)
         self._signal_freq_win = qtgui.RangeWidget(self._signal_freq_range, self.set_signal_freq, "'signal_freq'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._signal_freq_win)
-        self._goertzel_freq_range = qtgui.Range(0, 10000, 1, 1000, 200)
-        self._goertzel_freq_win = qtgui.RangeWidget(self._goertzel_freq_range, self.set_goertzel_freq, "'goertzel_freq'", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._goertzel_freq_win)
+        self._signal_amplitude2_range = qtgui.Range(0, 5, 0.1, 1, 200)
+        self._signal_amplitude2_win = qtgui.RangeWidget(self._signal_amplitude2_range, self.set_signal_amplitude2, "'signal_amplitude2'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._signal_amplitude2_win)
         self._signal_amplitude_range = qtgui.Range(0, 5, 0.1, 1, 200)
         self._signal_amplitude_win = qtgui.RangeWidget(self._signal_amplitude_range, self.set_signal_amplitude, "'signal_amplitude'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._signal_amplitude_win)
+        self._goertzel_freq2_range = qtgui.Range(0, 10000, 1, 1500, 200)
+        self._goertzel_freq2_win = qtgui.RangeWidget(self._goertzel_freq2_range, self.set_goertzel_freq2, "'goertzel_freq2'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._goertzel_freq2_win)
+        self._goertzel_freq_range = qtgui.Range(0, 10000, 1, 1000, 200)
+        self._goertzel_freq_win = qtgui.RangeWidget(self._goertzel_freq_range, self.set_goertzel_freq, "'goertzel_freq'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._goertzel_freq_win)
+        self._gain_range = qtgui.Range(0, 5, 1, 1, 200)
+        self._gain_win = qtgui.RangeWidget(self._gain_range, self.set_gain, "'gain'", "dial", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._gain_win)
         self.qtgui_time_sink_x_0_1 = qtgui.time_sink_f(
             1024, #size
             samp_rate, #samp_rate
@@ -229,21 +245,186 @@ class goertzel_test(gr.top_block, Qt.QWidget):
 
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_f(
+            1024, #size
+            window.WIN_BLACKMAN_hARRIS, #wintype
+            0, #fc
+            samp_rate, #bw
+            "", #name
+            1,
+            None # parent
+        )
+        self.qtgui_freq_sink_x_0.set_update_time(0.10)
+        self.qtgui_freq_sink_x_0.set_y_axis((-140), 10)
+        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
+        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
+        self.qtgui_freq_sink_x_0.enable_autoscale(False)
+        self.qtgui_freq_sink_x_0.enable_grid(False)
+        self.qtgui_freq_sink_x_0.set_fft_average(1.0)
+        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
+        self.qtgui_freq_sink_x_0.enable_control_panel(False)
+        self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
+
+
+        self.qtgui_freq_sink_x_0.set_plot_pos_half(not True)
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ["blue", "red", "green", "black", "cyan",
+            "magenta", "yellow", "dark red", "dark green", "dark blue"]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
+        self.goertzel_fc_0_0 = fft.goertzel_fc(samp_rate, 4096, goertzel_freq2)
         self.goertzel_fc_0 = fft.goertzel_fc(samp_rate, 4096, goertzel_freq)
+        self.blocks_threshold_ff_0_0 = blocks.threshold_ff(thresh_absent, thresh_present, 0)
         self.blocks_threshold_ff_0 = blocks.threshold_ff(thresh_absent, thresh_present, 0)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(gain)
+        self.blocks_float_to_uchar_0_0 = blocks.float_to_uchar(1, 1, 0)
+        self.blocks_float_to_uchar_0 = blocks.float_to_uchar(1, 1, 0)
+        self.blocks_complex_to_mag_squared_0_0 = blocks.complex_to_mag_squared(1)
         self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(1)
-        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, signal_freq, 1, 0, 0)
+        self.blocks_and_xx_0 = blocks.and_bb()
+        self.blocks_add_xx_0 = blocks.add_vff(1)
+        self.analog_sig_source_x_0_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, signal_freq2, signal_amplitude2, 0, 0)
+        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, signal_freq, signal_amplitude, 0, 0)
+        self.Freq2 = qtgui.number_sink(
+            gr.sizeof_char,
+            0,
+            qtgui.NUM_GRAPH_VERT,
+            1,
+            None # parent
+        )
+        self.Freq2.set_update_time(0.10)
+        self.Freq2.set_title("")
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        units = ['', '', '', '', '',
+            '', '', '', '', '']
+        colors = [("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"),
+            ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black")]
+        factor = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+
+        for i in range(1):
+            self.Freq2.set_min(i, -1)
+            self.Freq2.set_max(i, 1)
+            self.Freq2.set_color(i, colors[i][0], colors[i][1])
+            if len(labels[i]) == 0:
+                self.Freq2.set_label(i, "Data {0}".format(i))
+            else:
+                self.Freq2.set_label(i, labels[i])
+            self.Freq2.set_unit(i, units[i])
+            self.Freq2.set_factor(i, factor[i])
+
+        self.Freq2.enable_autoscale(False)
+        self._Freq2_win = sip.wrapinstance(self.Freq2.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._Freq2_win)
+        self.Freq1 = qtgui.number_sink(
+            gr.sizeof_char,
+            0,
+            qtgui.NUM_GRAPH_VERT,
+            1,
+            None # parent
+        )
+        self.Freq1.set_update_time(0.10)
+        self.Freq1.set_title("")
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        units = ['', '', '', '', '',
+            '', '', '', '', '']
+        colors = [("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"),
+            ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black")]
+        factor = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+
+        for i in range(1):
+            self.Freq1.set_min(i, -1)
+            self.Freq1.set_max(i, 1)
+            self.Freq1.set_color(i, colors[i][0], colors[i][1])
+            if len(labels[i]) == 0:
+                self.Freq1.set_label(i, "Data {0}".format(i))
+            else:
+                self.Freq1.set_label(i, labels[i])
+            self.Freq1.set_unit(i, units[i])
+            self.Freq1.set_factor(i, factor[i])
+
+        self.Freq1.enable_autoscale(False)
+        self._Freq1_win = sip.wrapinstance(self.Freq1.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._Freq1_win)
+        self.And = qtgui.number_sink(
+            gr.sizeof_char,
+            0,
+            qtgui.NUM_GRAPH_VERT,
+            1,
+            None # parent
+        )
+        self.And.set_update_time(0.10)
+        self.And.set_title("")
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        units = ['', '', '', '', '',
+            '', '', '', '', '']
+        colors = [("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"),
+            ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black")]
+        factor = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+
+        for i in range(1):
+            self.And.set_min(i, -1)
+            self.And.set_max(i, 1)
+            self.And.set_color(i, colors[i][0], colors[i][1])
+            if len(labels[i]) == 0:
+                self.And.set_label(i, "Data {0}".format(i))
+            else:
+                self.And.set_label(i, labels[i])
+            self.And.set_unit(i, units[i])
+            self.And.set_factor(i, factor[i])
+
+        self.And.enable_autoscale(False)
+        self._And_win = sip.wrapinstance(self.And.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._And_win)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_sig_source_x_0, 0), (self.goertzel_fc_0, 0))
+        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_add_xx_0, 0))
+        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_add_xx_0, 1))
+        self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.blocks_and_xx_0, 0), (self.And, 0))
         self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.blocks_threshold_ff_0, 0))
         self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.blocks_complex_to_mag_squared_0_0, 0), (self.blocks_threshold_ff_0_0, 0))
+        self.connect((self.blocks_float_to_uchar_0, 0), (self.Freq1, 0))
+        self.connect((self.blocks_float_to_uchar_0, 0), (self.blocks_and_xx_0, 0))
+        self.connect((self.blocks_float_to_uchar_0_0, 0), (self.Freq2, 0))
+        self.connect((self.blocks_float_to_uchar_0_0, 0), (self.blocks_and_xx_0, 1))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.goertzel_fc_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.goertzel_fc_0_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_uchar_0, 0))
         self.connect((self.blocks_threshold_ff_0, 0), (self.qtgui_time_sink_x_0_1, 0))
+        self.connect((self.blocks_threshold_ff_0_0, 0), (self.blocks_float_to_uchar_0_0, 0))
         self.connect((self.goertzel_fc_0, 0), (self.blocks_complex_to_mag_squared_0, 0))
         self.connect((self.goertzel_fc_0, 0), (self.qtgui_time_sink_x_0_0, 0))
+        self.connect((self.goertzel_fc_0_0, 0), (self.blocks_complex_to_mag_squared_0_0, 0))
 
 
     def closeEvent(self, event):
@@ -260,6 +441,7 @@ class goertzel_test(gr.top_block, Qt.QWidget):
     def set_thresh_present(self, thresh_present):
         self.thresh_present = thresh_present
         self.blocks_threshold_ff_0.set_hi(self.thresh_present)
+        self.blocks_threshold_ff_0_0.set_hi(self.thresh_present)
 
     def get_thresh_absent(self):
         return self.thresh_absent
@@ -267,6 +449,14 @@ class goertzel_test(gr.top_block, Qt.QWidget):
     def set_thresh_absent(self, thresh_absent):
         self.thresh_absent = thresh_absent
         self.blocks_threshold_ff_0.set_lo(self.thresh_absent)
+        self.blocks_threshold_ff_0_0.set_lo(self.thresh_absent)
+
+    def get_signal_freq2(self):
+        return self.signal_freq2
+
+    def set_signal_freq2(self, signal_freq2):
+        self.signal_freq2 = signal_freq2
+        self.analog_sig_source_x_0_0.set_frequency(self.signal_freq2)
 
     def get_signal_freq(self):
         return self.signal_freq
@@ -275,11 +465,19 @@ class goertzel_test(gr.top_block, Qt.QWidget):
         self.signal_freq = signal_freq
         self.analog_sig_source_x_0.set_frequency(self.signal_freq)
 
+    def get_signal_amplitude2(self):
+        return self.signal_amplitude2
+
+    def set_signal_amplitude2(self, signal_amplitude2):
+        self.signal_amplitude2 = signal_amplitude2
+        self.analog_sig_source_x_0_0.set_amplitude(self.signal_amplitude2)
+
     def get_signal_amplitude(self):
         return self.signal_amplitude
 
     def set_signal_amplitude(self, signal_amplitude):
         self.signal_amplitude = signal_amplitude
+        self.analog_sig_source_x_0.set_amplitude(self.signal_amplitude)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -287,10 +485,20 @@ class goertzel_test(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
+        self.analog_sig_source_x_0_0.set_sampling_freq(self.samp_rate)
         self.goertzel_fc_0.set_rate(self.samp_rate)
+        self.goertzel_fc_0_0.set_rate(self.samp_rate)
+        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_1.set_samp_rate(self.samp_rate)
+
+    def get_goertzel_freq2(self):
+        return self.goertzel_freq2
+
+    def set_goertzel_freq2(self, goertzel_freq2):
+        self.goertzel_freq2 = goertzel_freq2
+        self.goertzel_fc_0_0.set_freq(self.goertzel_freq2)
 
     def get_goertzel_freq(self):
         return self.goertzel_freq
@@ -298,6 +506,13 @@ class goertzel_test(gr.top_block, Qt.QWidget):
     def set_goertzel_freq(self, goertzel_freq):
         self.goertzel_freq = goertzel_freq
         self.goertzel_fc_0.set_freq(self.goertzel_freq)
+
+    def get_gain(self):
+        return self.gain
+
+    def set_gain(self, gain):
+        self.gain = gain
+        self.blocks_multiply_const_vxx_0.set_k(self.gain)
 
 
 

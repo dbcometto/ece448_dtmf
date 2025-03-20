@@ -16,7 +16,8 @@ import sys
 sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
 
 from GRCdtmfgenerator import GRCdtmfgenerator  # grc-generated hier_block
-from gnuradio import fft
+from dtmf_goertzel_bank import dtmf_goertzel_bank  # grc-generated hier_block
+from gnuradio import blocks
 from gnuradio import gr
 from gnuradio.filter import firdes
 from gnuradio.fft import window
@@ -68,7 +69,8 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 32000
         self.ontime = ontime = 5
         self.offtime = offtime = 1
-        self.message = message = "12"
+        self.message = message = "12 45"
+        self.goertzel_length = goertzel_length = 1024
         self.default_message = default_message = "12 34 56 78 90 AB CD *#"
         self.char_per_sec = char_per_sec = 1
 
@@ -76,63 +78,45 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
-        self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
-            samp_rate, #size
-            samp_rate, #samp_rate
-            "", #name
-            1, #number of inputs
+        self.qtgui_number_sink_0 = qtgui.number_sink(
+            gr.sizeof_char,
+            0,
+            qtgui.NUM_GRAPH_VERT,
+            4,
             None # parent
         )
-        self.qtgui_time_sink_x_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
+        self.qtgui_number_sink_0.set_update_time(0.00001)
+        self.qtgui_number_sink_0.set_title("")
 
-        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
-
-        self.qtgui_time_sink_x_0.enable_tags(True)
-        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_0.enable_autoscale(False)
-        self.qtgui_time_sink_x_0.enable_grid(False)
-        self.qtgui_time_sink_x_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0.enable_control_panel(False)
-        self.qtgui_time_sink_x_0.enable_stem_plot(False)
-
-
-        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
-            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
-        widths = [1, 1, 1, 1, 1,
+        labels = ['1', '2', '3', '4', '',
+            '', '', '', '', '']
+        units = ['', '', '', '', '',
+            '', '', '', '', '']
+        colors = [("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"),
+            ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black")]
+        factor = [1, 1, 1, 1, 1,
             1, 1, 1, 1, 1]
-        colors = ['blue', 'red', 'green', 'black', 'cyan',
-            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-        styles = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-            -1, -1, -1, -1, -1]
 
-
-        for i in range(2):
+        for i in range(4):
+            self.qtgui_number_sink_0.set_min(i, 0)
+            self.qtgui_number_sink_0.set_max(i, 1)
+            self.qtgui_number_sink_0.set_color(i, colors[i][0], colors[i][1])
             if len(labels[i]) == 0:
-                if (i % 2 == 0):
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
-                else:
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+                self.qtgui_number_sink_0.set_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
+                self.qtgui_number_sink_0.set_label(i, labels[i])
+            self.qtgui_number_sink_0.set_unit(i, units[i])
+            self.qtgui_number_sink_0.set_factor(i, factor[i])
 
-        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.qtgui_number_sink_0.enable_autoscale(False)
+        self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_number_sink_0_win)
         self.qtgui_freq_sink_x_0 = qtgui.freq_sink_f(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
             0, #fc
             samp_rate, #bw
-            "", #name
+            "DTMF Signal", #name
             1,
             None # parent
         )
@@ -144,7 +128,7 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_0.enable_grid(False)
         self.qtgui_freq_sink_x_0.set_fft_average(1.0)
         self.qtgui_freq_sink_x_0.enable_axis_labels(True)
-        self.qtgui_freq_sink_x_0.enable_control_panel(False)
+        self.qtgui_freq_sink_x_0.enable_control_panel(True)
         self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
 
 
@@ -170,7 +154,14 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.goertzel_fc_0 = fft.goertzel_fc(samp_rate, 2, 697)
+        self.dtmf_goertzel_bank_0 = dtmf_goertzel_bank(
+            gain=3,
+            goertzel_length=1024,
+            samp_rate=32000,
+        )
+
+        self.top_layout.addWidget(self.dtmf_goertzel_bank_0)
+        self.blocks_vector_to_streams_0 = blocks.vector_to_streams(gr.sizeof_char*1, 4)
         self.GRCdtmfgenerator_0 = GRCdtmfgenerator(
             char_per_sec=char_per_sec,
             dtmftext=message,
@@ -186,9 +177,13 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.GRCdtmfgenerator_0, 0), (self.goertzel_fc_0, 0))
+        self.connect((self.GRCdtmfgenerator_0, 0), (self.dtmf_goertzel_bank_0, 0))
         self.connect((self.GRCdtmfgenerator_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.goertzel_fc_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.blocks_vector_to_streams_0, 2), (self.qtgui_number_sink_0, 2))
+        self.connect((self.blocks_vector_to_streams_0, 1), (self.qtgui_number_sink_0, 1))
+        self.connect((self.blocks_vector_to_streams_0, 0), (self.qtgui_number_sink_0, 0))
+        self.connect((self.blocks_vector_to_streams_0, 3), (self.qtgui_number_sink_0, 3))
+        self.connect((self.dtmf_goertzel_bank_0, 0), (self.blocks_vector_to_streams_0, 0))
 
 
     def closeEvent(self, event):
@@ -212,9 +207,7 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.GRCdtmfgenerator_0.set_samp_rate(self.samp_rate)
-        self.goertzel_fc_0.set_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
     def get_ontime(self):
         return self.ontime
@@ -236,6 +229,12 @@ class dtmf_encoder(gr.top_block, Qt.QWidget):
     def set_message(self, message):
         self.message = message
         self.GRCdtmfgenerator_0.set_dtmftext(self.message)
+
+    def get_goertzel_length(self):
+        return self.goertzel_length
+
+    def set_goertzel_length(self, goertzel_length):
+        self.goertzel_length = goertzel_length
 
     def get_default_message(self):
         return self.default_message

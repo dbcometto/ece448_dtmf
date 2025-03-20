@@ -78,12 +78,12 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     num_inputs: '2'
-    type: int
+    type: byte
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1048, 208.0]
+    coordinate: [1240, 176.0]
     rotation: 0
     state: enabled
 - name: blocks_and_xx_0_0
@@ -95,12 +95,46 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     num_inputs: '2'
-    type: int
+    type: byte
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1048, 296.0]
+    coordinate: [1568, 176.0]
+    rotation: 0
+    state: enabled
+- name: blocks_and_xx_0_0_0
+  id: blocks_and_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1568, 288.0]
+    rotation: 0
+    state: enabled
+- name: blocks_and_xx_0_1
+  id: blocks_and_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1240, 288.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_mag_squared_0
@@ -116,7 +150,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [480, 208.0]
+    coordinate: [416, 208.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_mag_squared_0_0
@@ -132,7 +166,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [480, 296.0]
+    coordinate: [416, 296.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_mag_squared_0_0_0
@@ -148,14 +182,31 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [480, 536.0]
+    coordinate: [416, 536.0]
     rotation: 0
     state: enabled
-- name: blocks_float_to_int_0
-  id: blocks_float_to_int
+- name: blocks_complex_to_mag_squared_0_0_0_0
+  id: blocks_complex_to_mag_squared
   parameters:
     affinity: ''
     alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 624.0]
+    rotation: 0
+    state: enabled
+- name: blocks_float_to_uchar_0
+  id: blocks_float_to_uchar
+  parameters:
+    affinity: ''
+    alias: ''
+    bias: '0'
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -165,14 +216,15 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [808, 200.0]
+    coordinate: [736, 192.0]
     rotation: 0
     state: enabled
-- name: blocks_float_to_int_0_0
-  id: blocks_float_to_int
+- name: blocks_float_to_uchar_0_0
+  id: blocks_float_to_uchar
   parameters:
     affinity: ''
     alias: ''
+    bias: '0'
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -182,14 +234,15 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [808, 288.0]
+    coordinate: [736, 280.0]
     rotation: 0
     state: enabled
-- name: blocks_float_to_int_0_0_0
-  id: blocks_float_to_int
+- name: blocks_float_to_uchar_0_0_0
+  id: blocks_float_to_uchar
   parameters:
     affinity: ''
     alias: ''
+    bias: '0'
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -199,7 +252,61 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [808, 528.0]
+    coordinate: [736, 520.0]
+    rotation: 0
+    state: enabled
+- name: blocks_float_to_uchar_0_0_1
+  id: blocks_float_to_uchar
+  parameters:
+    affinity: ''
+    alias: ''
+    bias: '0'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [736, 608.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [88, 136.0]
+    rotation: 0
+    state: enabled
+- name: blocks_streams_to_vector_0
+  id: blocks_streams_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '4'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1672, 560.0]
     rotation: 0
     state: enabled
 - name: blocks_threshold_ff_0
@@ -217,7 +324,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [664, 184.0]
+    coordinate: [600, 184.0]
     rotation: 0
     state: enabled
 - name: blocks_threshold_ff_0_0
@@ -235,7 +342,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [664, 272.0]
+    coordinate: [600, 272.0]
     rotation: 0
     state: enabled
 - name: blocks_threshold_ff_0_0_0
@@ -253,44 +360,42 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [664, 512.0]
+    coordinate: [600, 512.0]
     rotation: 0
     state: enabled
-- name: epy_block_0
-  id: epy_block
+- name: blocks_threshold_ff_0_0_0_0
+  id: blocks_threshold_ff
   parameters:
-    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
-      \ GRC will instantiate the first class it finds\nto get ports and parameters\
-      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
-      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
-      from gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other base classes\
-      \ are basic_block, decim_block, interp_block\n    \"\"\"Embedded Python Block\
-      \ example - a simple multiply const\"\"\"\n\n    def __init__(self, example_param=1.0):\
-      \  # only default arguments here\n        \"\"\"arguments to this function show\
-      \ up as parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n         \
-      \   self,\n            name='Embedded Python Block',   # will show up in GRC\n\
-      \            in_sig=[int,int],\n            out_sig=[np.float32]\n        )\n\
-      \        # if an attribute with the same name as a parameter is found,\n   \
-      \     # a callback is registered (properties work, too).\n        self.example_param\
-      \ = example_param\n        self.waiting_for_zero = False\n\n    def work(self,\
-      \ input_items, output_items):\n        \"\"\"example: multiply with constant\"\
-      \"\"\n        output_items[0][:] = input_items[0] * self.example_param\n\n \
-      \       if input_items[0] == 1:\n            output_items[0][:] = 1.0\n\n  \
-      \      return len(output_items[0])\n"
     affinity: ''
     alias: ''
     comment: ''
-    example_param: '1.0'
+    high: thresh_present
+    init: '0'
+    low: thresh_absent
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: ('Embedded Python Block', 'blk', [('example_param', '1.0')], [('0',
-      'int', 1), ('1', 'int', 1)], [('0', 'float', 1)], 'Embedded Python Block example
-      - a simple multiply const', ['example_param'])
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 224.0]
+    coordinate: [600, 600.0]
+    rotation: 0
+    state: enabled
+- name: gain
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: ''
+    short_id: ''
+    type: ''
+    value: '5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [784, 8.0]
     rotation: 0
     state: enabled
 - name: goertzel_fc_0
@@ -308,7 +413,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 184.0]
+    coordinate: [264, 184.0]
     rotation: 0
     state: enabled
 - name: goertzel_fc_0_0
@@ -326,7 +431,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 272.0]
+    coordinate: [264, 272.0]
     rotation: 0
     state: enabled
 - name: goertzel_fc_0_0_0
@@ -344,7 +449,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 512.0]
+    coordinate: [264, 512.0]
+    rotation: 0
+    state: enabled
+- name: goertzel_fc_0_0_0_0
+  id: goertzel_fc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    freq: freqtable[5]
+    len: goertzel_length
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [264, 600.0]
     rotation: 0
     state: enabled
 - name: goertzel_length
@@ -352,16 +475,34 @@ blocks:
   parameters:
     alias: ''
     comment: ''
-    hide: none
+    hide: part
     label: ''
     short_id: ''
     type: ''
-    value: '1024'
+    value: '512'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [456, 8.0]
+    rotation: 0
+    state: enabled
+- name: pad_sink_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: out
+    num_streams: '1'
+    optional: 'False'
+    type: ''
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1856, 600.0]
     rotation: 0
     state: enabled
 - name: pad_source_0
@@ -381,7 +522,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [104, 200.0]
+    coordinate: [40, 232.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -401,26 +542,306 @@ blocks:
     coordinate: [208, 8.0]
     rotation: 0
     state: enabled
+- name: virtual_sink_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq1
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [880, 200.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_0_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq2
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [880, 288.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_0_0_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq5
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [872, 528.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_0_0_0_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [872, 616.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_1
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312, 184.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_1_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1640, 184.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_1_1
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: '3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312, 296.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_1_2
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1640, 296.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq1
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1072, 160.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq5
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1072, 208.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0_0_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1400, 208.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0_0_0_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1400, 320.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0_0_1
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq5
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1072, 320.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0_1
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq1
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1400, 160.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0_1_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq2
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1400, 272.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0_2
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freq2
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1072, 272.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_1
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1480, 520.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_1_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1480, 576.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_1_1
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: '3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1480, 632.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_1_2
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1480, 688.0]
+    rotation: 0
+    state: enabled
 
 connections:
-- [blocks_and_xx_0, '0', epy_block_0, '0']
-- [blocks_and_xx_0_0, '0', epy_block_0, '1']
+- [blocks_and_xx_0, '0', virtual_sink_1, '0']
+- [blocks_and_xx_0_0, '0', virtual_sink_1_0, '0']
+- [blocks_and_xx_0_0_0, '0', virtual_sink_1_2, '0']
+- [blocks_and_xx_0_1, '0', virtual_sink_1_1, '0']
 - [blocks_complex_to_mag_squared_0, '0', blocks_threshold_ff_0, '0']
 - [blocks_complex_to_mag_squared_0_0, '0', blocks_threshold_ff_0_0, '0']
 - [blocks_complex_to_mag_squared_0_0_0, '0', blocks_threshold_ff_0_0_0, '0']
-- [blocks_float_to_int_0, '0', blocks_and_xx_0, '0']
-- [blocks_float_to_int_0_0, '0', blocks_and_xx_0_0, '0']
-- [blocks_float_to_int_0_0_0, '0', blocks_and_xx_0, '1']
-- [blocks_float_to_int_0_0_0, '0', blocks_and_xx_0_0, '1']
-- [blocks_threshold_ff_0, '0', blocks_float_to_int_0, '0']
-- [blocks_threshold_ff_0_0, '0', blocks_float_to_int_0_0, '0']
-- [blocks_threshold_ff_0_0_0, '0', blocks_float_to_int_0_0_0, '0']
+- [blocks_complex_to_mag_squared_0_0_0_0, '0', blocks_threshold_ff_0_0_0_0, '0']
+- [blocks_float_to_uchar_0, '0', virtual_sink_0, '0']
+- [blocks_float_to_uchar_0_0, '0', virtual_sink_0_0, '0']
+- [blocks_float_to_uchar_0_0_0, '0', virtual_sink_0_0_0, '0']
+- [blocks_float_to_uchar_0_0_1, '0', virtual_sink_0_0_0_0, '0']
+- [blocks_multiply_const_vxx_0, '0', goertzel_fc_0, '0']
+- [blocks_multiply_const_vxx_0, '0', goertzel_fc_0_0, '0']
+- [blocks_multiply_const_vxx_0, '0', goertzel_fc_0_0_0, '0']
+- [blocks_multiply_const_vxx_0, '0', goertzel_fc_0_0_0_0, '0']
+- [blocks_streams_to_vector_0, '0', pad_sink_0, '0']
+- [blocks_threshold_ff_0, '0', blocks_float_to_uchar_0, '0']
+- [blocks_threshold_ff_0_0, '0', blocks_float_to_uchar_0_0, '0']
+- [blocks_threshold_ff_0_0_0, '0', blocks_float_to_uchar_0_0_0, '0']
+- [blocks_threshold_ff_0_0_0_0, '0', blocks_float_to_uchar_0_0_1, '0']
 - [goertzel_fc_0, '0', blocks_complex_to_mag_squared_0, '0']
 - [goertzel_fc_0_0, '0', blocks_complex_to_mag_squared_0_0, '0']
 - [goertzel_fc_0_0_0, '0', blocks_complex_to_mag_squared_0_0_0, '0']
-- [pad_source_0, '0', goertzel_fc_0, '0']
-- [pad_source_0, '0', goertzel_fc_0_0, '0']
-- [pad_source_0, '0', goertzel_fc_0_0_0, '0']
+- [goertzel_fc_0_0_0_0, '0', blocks_complex_to_mag_squared_0_0_0_0, '0']
+- [pad_source_0, '0', blocks_multiply_const_vxx_0, '0']
+- [virtual_source_0, '0', blocks_and_xx_0, '0']
+- [virtual_source_0_0, '0', blocks_and_xx_0, '1']
+- [virtual_source_0_0_0, '0', blocks_and_xx_0_0, '1']
+- [virtual_source_0_0_0_0, '0', blocks_and_xx_0_0_0, '1']
+- [virtual_source_0_0_1, '0', blocks_and_xx_0_1, '1']
+- [virtual_source_0_1, '0', blocks_and_xx_0_0, '0']
+- [virtual_source_0_1_0, '0', blocks_and_xx_0_0_0, '0']
+- [virtual_source_0_2, '0', blocks_and_xx_0_1, '0']
+- [virtual_source_1, '0', blocks_streams_to_vector_0, '0']
+- [virtual_source_1_0, '0', blocks_streams_to_vector_0, '1']
+- [virtual_source_1_1, '0', blocks_streams_to_vector_0, '2']
+- [virtual_source_1_2, '0', blocks_streams_to_vector_0, '3']
 
 metadata:
   file_format: 1
