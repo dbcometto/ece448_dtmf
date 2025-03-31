@@ -1,0 +1,531 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: dtmf_simulation
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Not titled yet
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: char_per_sec
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 16.0]
+    rotation: 0
+    state: enabled
+- name: default_message
+  id: variable
+  parameters:
+    comment: ''
+    value: '"12 34 56 78 90 AB CD *#"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [808, 16.0]
+    rotation: 0
+    state: enabled
+- name: gain
+  id: variable
+  parameters:
+    comment: ''
+    value: '5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [616, 88.0]
+    rotation: 0
+    state: enabled
+- name: goertzel_length
+  id: variable
+  parameters:
+    comment: ''
+    value: '1024'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [616, 16.0]
+    rotation: 0
+    state: enabled
+- name: message
+  id: variable
+  parameters:
+    comment: ''
+    value: '"12 45"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [728, 16.0]
+    rotation: 0
+    state: enabled
+- name: offtime
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [392, 16.0]
+    rotation: 0
+    state: enabled
+- name: ontime
+  id: variable
+  parameters:
+    comment: ''
+    value: '5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [464, 16.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '32000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 16.0]
+    rotation: 0
+    state: enabled
+- name: sleeptime
+  id: variable
+  parameters:
+    comment: ''
+    value: '10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 16.0]
+    rotation: 0
+    state: enabled
+- name: GRCdtmfgenerator_0
+  id: GRCdtmfgenerator
+  parameters:
+    affinity: ''
+    alias: ''
+    char_per_sec: char_per_sec
+    comment: ''
+    dtmftext: message
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offtime: offtime
+    ontime: ontime
+    samp_rate: samp_rate
+    sleeptime: sleeptime
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 184.0]
+    rotation: 0
+    state: enabled
+- name: blocks_int_to_float_0
+  id: blocks_int_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1144, 216.0]
+    rotation: 0
+    state: disabled
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [112, 496.0]
+    rotation: 0
+    state: enabled
+- name: blocks_vector_to_streams_0
+  id: blocks_vector_to_streams
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '4'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [608, 312.0]
+    rotation: 0
+    state: enabled
+- name: dtmf_goertzel_bank_0
+  id: dtmf_goertzel_bank
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gain: gain
+    goertzel_length: goertzel_length
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 344.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      from gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other base classes\
+      \ are basic_block, decim_block, interp_block\n    \"\"\"Embedded Python Block\
+      \ example - a simple multiply const\"\"\"\n\n    def __init__(self, example_param=1.0):\
+      \  # only default arguments here\n        \"\"\"arguments to this function show\
+      \ up as parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n         \
+      \   self,\n            name='One Hot to Linear Coordinate Converter',   # will\
+      \ show up in GRC\n            in_sig=[np.uint8, np.uint8, np.uint8, np.uint8],\n\
+      \            out_sig=[int]\n        )\n        # if an attribute with the same\
+      \ name as a parameter is found,\n        # a callback is registered (properties\
+      \ work, too).\n        self.example_param = example_param\n\n    def work(self,\
+      \ input_items, output_items):\n        # convert presence values into one dimensional\
+      \ character coordinate\n\n        # first, assign to readable values\n     \
+      \   is697present = input_items[0][0]\n        is712present = input_items[1][0]\n\
+      \n        is1209present = input_items[2][0]\n        is1336present = input_items[3][0]\n\
+      \n        colCoord = 0*is697present + 1*is712present\n        rowCoord = 0*is1209present\
+      \ + 1*is1336present\n\n        if (is697present + is712present + is1209present\
+      \ + is1336present) == 0:\n            coordinate = -1\n        else:\n     \
+      \       coordinate = rowCoord*2+colCoord\n\n        # then, output the coordinate\
+      \ to GNU Radio\n        output_items[0][:] = coordinate\n\n        return len(output_items[0])\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    example_param: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('One Hot to Linear Coordinate Converter', 'blk', [('example_param',
+      '1.0')], [('0', 'byte', 1), ('1', 'byte', 1), ('2', 'byte', 1), ('3', 'byte',
+      1)], [('0', 'int', 1)], 'Embedded Python Block example - a simple multiply const',
+      ['example_param'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [856, 312.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_freq_sink_x_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'True'
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label: Relative Gain
+    label1: ''
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"DTMF Signal"'
+    nconnections: '1'
+    norm_window: 'False'
+    showports: 'False'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: float
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: window.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 152.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_number_sink_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_VERT
+    gui_hint: ''
+    label1: '1'
+    label10: ''
+    label2: '2'
+    label3: '3'
+    label4: '4'
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '1'
+    min: '0'
+    name: '""'
+    nconnections: '4'
+    type: byte
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.00001'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [896, 152.0]
+    rotation: 0
+    state: disabled
+- name: qtgui_number_sink_1
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_VERT
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '4'
+    min: '-1'
+    name: '"Index"'
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.000001'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1288, 184.0]
+    rotation: 0
+    state: disabled
+- name: zeromq_push_sink_0
+  id: zeromq_push_sink
+  parameters:
+    address: tcp://localhost:4444
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: ''
+    hwm: '-1'
+    pass_tags: 'False'
+    timeout: '100'
+    type: int
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1224, 328.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [GRCdtmfgenerator_0, '0', blocks_throttle2_0, '0']
+- [blocks_int_to_float_0, '0', qtgui_number_sink_1, '0']
+- [blocks_throttle2_0, '0', dtmf_goertzel_bank_0, '0']
+- [blocks_throttle2_0, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_vector_to_streams_0, '0', epy_block_0, '0']
+- [blocks_vector_to_streams_0, '0', qtgui_number_sink_0, '0']
+- [blocks_vector_to_streams_0, '1', epy_block_0, '1']
+- [blocks_vector_to_streams_0, '1', qtgui_number_sink_0, '1']
+- [blocks_vector_to_streams_0, '2', epy_block_0, '2']
+- [blocks_vector_to_streams_0, '2', qtgui_number_sink_0, '2']
+- [blocks_vector_to_streams_0, '3', epy_block_0, '3']
+- [blocks_vector_to_streams_0, '3', qtgui_number_sink_0, '3']
+- [dtmf_goertzel_bank_0, '0', blocks_vector_to_streams_0, '0']
+- [epy_block_0, '0', blocks_int_to_float_0, '0']
+- [epy_block_0, '0', zeromq_push_sink_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.10.0
