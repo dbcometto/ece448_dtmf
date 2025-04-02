@@ -18,23 +18,47 @@ socket_loc = "tcp://localhost:4444"
 #  Set up socket to talk to GNU Radio
 context = zmq.Context()
 pull_socket = context.socket(zmq.PULL)
-pull_socket.setsockopt(zmq.CONFLATE, 1)
+#pull_socket.setsockopt(zmq.CONFLATE, 1)
 pull_socket.connect(socket_loc)
 
 print(f" I am setup and waiting for messages on {socket_loc}")
 
 
+current_data = b""
+my_int = 99
+state = 0 # 0 means waiting for data, 1 means received data waiting for break
+
 # Main Processing Loop
 while True: 
 
+    # get new data every once in a while
     current_time = time.time()*1000
-
-    if (current_time-last_time) > 100:
+    if (current_time-last_time) > period_ms:
         # Get new data
         try:
-            print(int.from_bytes(pull_socket.recv(flags=zmq.NOBLOCK)[0]))
+            current_data += pull_socket.recv(flags=zmq.NOBLOCK) # concactenate new data onto old data
         except:
             pass   
 
-        last_time = current_time
+        last_time = current_time 
+
+    # If there is enough data, get a new integer    
+    while len(current_data) >= 1: 
+        # pull int out of byte data
+        my_int = int.from_bytes(current_data[:4], byteorder="little") #int.from_bytes(current_data[0]) 
+        current_data = current_data[4:] # delete data off of the front of the queue
+
+        # current state and next state logic
+
+        if state == 0:
+            #print("state 0")
+            if my_int != 99:
+                print(my_int, end="")
+                sys.stdout.flush()
+                state = 1
+
+        elif state == 1:
+            #print("state 1")
+            if my_int == 99:
+                state = 0
         

@@ -69,18 +69,51 @@ class dtmf_simulation(gr.top_block, Qt.QWidget):
         self.sleeptime = sleeptime = 10
         self.samp_rate = samp_rate = 32000
         self.ontime = ontime = 5
-        self.offtime = offtime = 1
-        self.message = message = "12 45"
-        self.goertzel_length = goertzel_length = 1024
+        self.offtime = offtime = 3
+        self.message = message = "12 12 45 45"
+        self.goertzel_length = goertzel_length = 2048
         self.gain = gain = 5
         self.default_message = default_message = "12 34 56 78 90 AB CD *#"
-        self.char_per_sec = char_per_sec = 1
+        self.char_per_sec = char_per_sec = 0.5
 
         ##################################################
         # Blocks
         ##################################################
 
         self.zeromq_push_sink_0 = zeromq.push_sink(gr.sizeof_int, 1, 'tcp://localhost:4444', 100, False, (-1), True)
+        self.qtgui_number_sink_1 = qtgui.number_sink(
+            gr.sizeof_float,
+            0,
+            qtgui.NUM_GRAPH_VERT,
+            1,
+            None # parent
+        )
+        self.qtgui_number_sink_1.set_update_time(0.000001)
+        self.qtgui_number_sink_1.set_title("Index")
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        units = ['', '', '', '', '',
+            '', '', '', '', '']
+        colors = [("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"),
+            ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black")]
+        factor = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+
+        for i in range(1):
+            self.qtgui_number_sink_1.set_min(i, -1)
+            self.qtgui_number_sink_1.set_max(i, 4)
+            self.qtgui_number_sink_1.set_color(i, colors[i][0], colors[i][1])
+            if len(labels[i]) == 0:
+                self.qtgui_number_sink_1.set_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_number_sink_1.set_label(i, labels[i])
+            self.qtgui_number_sink_1.set_unit(i, units[i])
+            self.qtgui_number_sink_1.set_factor(i, factor[i])
+
+        self.qtgui_number_sink_1.enable_autoscale(False)
+        self._qtgui_number_sink_1_win = sip.wrapinstance(self.qtgui_number_sink_1.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_number_sink_1_win)
         self.qtgui_freq_sink_x_0 = qtgui.freq_sink_f(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
@@ -134,6 +167,7 @@ class dtmf_simulation(gr.top_block, Qt.QWidget):
         self.top_layout.addWidget(self.dtmf_goertzel_bank_0)
         self.blocks_vector_to_streams_0 = blocks.vector_to_streams(gr.sizeof_char*1, 4)
         self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_float*1, samp_rate, True, 0 if "auto" == "auto" else max( int(float(0.1) * samp_rate) if "auto" == "time" else int(0.1), 1) )
+        self.blocks_int_to_float_0 = blocks.int_to_float(1, 1)
         self.GRCdtmfgenerator_0 = GRCdtmfgenerator(
             char_per_sec=char_per_sec,
             dtmftext=message,
@@ -150,13 +184,15 @@ class dtmf_simulation(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.GRCdtmfgenerator_0, 0), (self.blocks_throttle2_0, 0))
+        self.connect((self.blocks_int_to_float_0, 0), (self.qtgui_number_sink_1, 0))
         self.connect((self.blocks_throttle2_0, 0), (self.dtmf_goertzel_bank_0, 0))
         self.connect((self.blocks_throttle2_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_vector_to_streams_0, 0), (self.epy_block_0, 0))
-        self.connect((self.blocks_vector_to_streams_0, 1), (self.epy_block_0, 1))
         self.connect((self.blocks_vector_to_streams_0, 3), (self.epy_block_0, 3))
+        self.connect((self.blocks_vector_to_streams_0, 1), (self.epy_block_0, 1))
         self.connect((self.blocks_vector_to_streams_0, 2), (self.epy_block_0, 2))
+        self.connect((self.blocks_vector_to_streams_0, 0), (self.epy_block_0, 0))
         self.connect((self.dtmf_goertzel_bank_0, 0), (self.blocks_vector_to_streams_0, 0))
+        self.connect((self.epy_block_0, 0), (self.blocks_int_to_float_0, 0))
         self.connect((self.epy_block_0, 0), (self.zeromq_push_sink_0, 0))
 
 

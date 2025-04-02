@@ -39,7 +39,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         rowCoord = 0*is1209present + 1*is1336present
 
         if (is697present + is712present + is1209present + is1336present) == 0:
-            coordinate = -1
+            coordinate = 99
         else:
             coordinate = rowCoord*2+colCoord
 
