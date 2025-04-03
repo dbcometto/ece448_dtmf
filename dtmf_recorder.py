@@ -28,6 +28,11 @@ current_data = b""
 my_int = 99
 state = 0 # 0 means waiting for data, 1 means received data waiting for break
 
+decodeTable = {0:"1",1:"2",2:"3",3:"A",
+               4:"4",5:"5",6:"6",7:"B",
+               8:"7",9:"8",10:"9",11:"C",
+               12:"*",13:"0",14:"#",15:"D"}
+
 # Main Processing Loop
 while True: 
 
@@ -53,7 +58,7 @@ while True:
         if state == 0:
             #print("state 0")
             if my_int != 99:
-                print(my_int, end="")
+                print(decodeTable[my_int], end="")
                 sys.stdout.flush()
                 state = 1
 

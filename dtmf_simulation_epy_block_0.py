@@ -15,33 +15,38 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
 
     def __init__(self, example_param=1.0):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
+        self.vectorsize = 16
         gr.sync_block.__init__(
             self,
             name='One Hot to Linear Coordinate Converter',   # will show up in GRC
-            in_sig=[np.uint8, np.uint8, np.uint8, np.uint8],
+            in_sig=[(np.uint8, 16)],
             out_sig=[int]
         )
         # if an attribute with the same name as a parameter is found,
         # a callback is registered (properties work, too).
-        self.example_param = example_param
+        # self.example_param = example_param
 
     def work(self, input_items, output_items):
         # convert presence values into one dimensional character coordinate
 
         # first, assign to readable values
-        is697present = input_items[0][0]
-        is712present = input_items[1][0]
+        # is697present = input_items[0][0]
+        # is712present = input_items[1][0]
 
-        is1209present = input_items[2][0]
-        is1336present = input_items[3][0]
+        # is1209present = input_items[2][0]
+        # is1336present = input_items[3][0]
 
-        colCoord = 0*is697present + 1*is712present
-        rowCoord = 0*is1209present + 1*is1336present
+        # colCoord = 0*input_items[0][0] + 1*input_items[1][0] + 2*input_items[2][0] + 3*input_items[3][0]
+        # rowCoord = 0*input_items[4][0] + 1*input_items[5][0]
 
-        if (is697present + is712present + is1209present + is1336present) == 0:
+        input_sum = 0
+        coordinate = 0
+        for n in range(0,len(input_items[0][0])):
+            input_sum += input_items[0][0][n]
+            coordinate += n*input_items[0][0][n]
+
+        if input_sum == 0:
             coordinate = 99
-        else:
-            coordinate = rowCoord*2+colCoord
 
         # then, output the coordinate to GNU Radio
         output_items[0][:] = coordinate
