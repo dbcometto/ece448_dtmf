@@ -16,9 +16,11 @@ sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnura
 
 from GRCdtmfgenerator import GRCdtmfgenerator  # grc-generated hier_block
 from dtmf_goertzel_bank import dtmf_goertzel_bank  # grc-generated hier_block
+from gnuradio import audio
 from gnuradio import blocks
-from gnuradio import gr
+from gnuradio import filter
 from gnuradio.filter import firdes
+from gnuradio import gr
 from gnuradio.fft import window
 import signal
 from PyQt5 import Qt
@@ -67,14 +69,14 @@ class dtmf_simulation(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.sleeptime = sleeptime = 10
-        self.samp_rate = samp_rate = 32000
+        self.samp_rate = samp_rate = 128000
         self.ontime = ontime = 5
-        self.offtime = offtime = 3
+        self.offtime = offtime = 5
         self.message = message = "123 A 456 B 789 C *0#D"
         self.goertzel_length = goertzel_length = 2048
         self.gain = gain = 5
         self.default_message = default_message = "12 34 56 78 90 AB CD *#"
-        self.char_per_sec = char_per_sec = 0.5
+        self.char_per_sec = char_per_sec = 5
 
         ##################################################
         # Blocks
@@ -157,6 +159,8 @@ class dtmf_simulation(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
+        self.fir_filter_xxx_0 = filter.fir_filter_fff((int(samp_rate/32000)), [1])
+        self.fir_filter_xxx_0.declare_sample_delay(0)
         self.epy_block_0 = epy_block_0.blk(example_param=1.0)
         self.dtmf_goertzel_bank_0 = dtmf_goertzel_bank(
             gain=gain,
@@ -167,6 +171,7 @@ class dtmf_simulation(gr.top_block, Qt.QWidget):
         self.top_layout.addWidget(self.dtmf_goertzel_bank_0)
         self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_float*1, samp_rate, True, 0 if "auto" == "auto" else max( int(float(0.1) * samp_rate) if "auto" == "time" else int(0.1), 1) )
         self.blocks_int_to_float_0 = blocks.int_to_float(1, 1)
+        self.audio_sink_0 = audio.sink(32000, '', True)
         self.GRCdtmfgenerator_0 = GRCdtmfgenerator(
             char_per_sec=char_per_sec,
             dtmftext=message,
@@ -185,10 +190,12 @@ class dtmf_simulation(gr.top_block, Qt.QWidget):
         self.connect((self.GRCdtmfgenerator_0, 0), (self.blocks_throttle2_0, 0))
         self.connect((self.blocks_int_to_float_0, 0), (self.qtgui_number_sink_1, 0))
         self.connect((self.blocks_throttle2_0, 0), (self.dtmf_goertzel_bank_0, 0))
+        self.connect((self.blocks_throttle2_0, 0), (self.fir_filter_xxx_0, 0))
         self.connect((self.blocks_throttle2_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.dtmf_goertzel_bank_0, 0), (self.epy_block_0, 0))
         self.connect((self.epy_block_0, 0), (self.blocks_int_to_float_0, 0))
         self.connect((self.epy_block_0, 0), (self.zeromq_push_sink_0, 0))
+        self.connect((self.fir_filter_xxx_0, 0), (self.audio_sink_0, 0))
 
 
     def closeEvent(self, event):

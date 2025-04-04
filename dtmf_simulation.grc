@@ -37,7 +37,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.5'
+    value: '5'
   states:
     bus_sink: false
     bus_source: false
@@ -54,7 +54,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [808, 16.0]
+    coordinate: [728, 88.0]
     rotation: 0
     state: enabled
 - name: gain
@@ -97,7 +97,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '3'
+    value: '5'
   states:
     bus_sink: false
     bus_source: false
@@ -121,7 +121,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '32000'
+    value: '128000'
   states:
     bus_sink: false
     bus_source: false
@@ -161,6 +161,23 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [32, 184.0]
+    rotation: 0
+    state: enabled
+- name: audio_sink_0
+  id: audio_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    device_name: ''
+    num_inputs: '1'
+    ok_to_block: 'True'
+    samp_rate: '32000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 424.0]
     rotation: 0
     state: enabled
 - name: blocks_int_to_float_0
@@ -280,6 +297,25 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [784, 224.0]
+    rotation: 0
+    state: enabled
+- name: fir_filter_xxx_0
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: int(samp_rate/32000)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: '1'
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 416.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -577,6 +613,7 @@ connections:
 - [GRCdtmfgenerator_0, '0', blocks_throttle2_0, '0']
 - [blocks_int_to_float_0, '0', qtgui_number_sink_1, '0']
 - [blocks_throttle2_0, '0', dtmf_goertzel_bank_0, '0']
+- [blocks_throttle2_0, '0', fir_filter_xxx_0, '0']
 - [blocks_throttle2_0, '0', qtgui_freq_sink_x_0, '0']
 - [blocks_vector_to_streams_0, '0', qtgui_number_sink, '0']
 - [blocks_vector_to_streams_0, '1', qtgui_number_sink, '1']
@@ -598,6 +635,7 @@ connections:
 - [dtmf_goertzel_bank_0, '0', epy_block_0, '0']
 - [epy_block_0, '0', blocks_int_to_float_0, '0']
 - [epy_block_0, '0', zeromq_push_sink_0, '0']
+- [fir_filter_xxx_0, '0', audio_sink_0, '0']
 
 metadata:
   file_format: 1
