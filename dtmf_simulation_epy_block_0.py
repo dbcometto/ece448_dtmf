@@ -11,9 +11,8 @@ from gnuradio import gr
 
 
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
-    """Embedded Python Block example - a simple multiply const"""
 
-    def __init__(self, example_param=1.0):  # only default arguments here
+    def __init__(self):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         self.vectorsize = 16
         gr.sync_block.__init__(
@@ -28,16 +27,6 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
 
     def work(self, input_items, output_items):
         # convert presence values into one dimensional character coordinate
-
-        # first, assign to readable values
-        # is697present = input_items[0][0]
-        # is712present = input_items[1][0]
-
-        # is1209present = input_items[2][0]
-        # is1336present = input_items[3][0]
-
-        # colCoord = 0*input_items[0][0] + 1*input_items[1][0] + 2*input_items[2][0] + 3*input_items[3][0]
-        # rowCoord = 0*input_items[4][0] + 1*input_items[5][0]
 
         input_sum = 0
         coordinate = 0

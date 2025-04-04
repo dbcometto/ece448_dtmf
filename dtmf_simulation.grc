@@ -177,9 +177,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [504, 424.0]
+    coordinate: [592, 368.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_int_to_float_0
   id: blocks_int_to_float
   parameters:
@@ -196,7 +196,7 @@ blocks:
     bus_structure: null
     coordinate: [1088, 88.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_throttle2_0
   id: blocks_throttle2
   parameters:
@@ -233,8 +233,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 328.0]
-    rotation: 0
+    coordinate: [648.0, 440]
+    rotation: 270
     state: disabled
 - name: dtmf_goertzel_bank_0
   id: dtmf_goertzel_bank
@@ -263,40 +263,33 @@ blocks:
       \ of your block. The arguments to __init__  will\nbe the parameters. All of\
       \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
       from gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other base classes\
-      \ are basic_block, decim_block, interp_block\n    \"\"\"Embedded Python Block\
-      \ example - a simple multiply const\"\"\"\n\n    def __init__(self, example_param=1.0):\
-      \  # only default arguments here\n        \"\"\"arguments to this function show\
-      \ up as parameters in GRC\"\"\"\n        self.vectorsize = 16\n        gr.sync_block.__init__(\n\
+      \ are basic_block, decim_block, interp_block\n\n    def __init__(self):  # only\
+      \ default arguments here\n        \"\"\"arguments to this function show up as\
+      \ parameters in GRC\"\"\"\n        self.vectorsize = 16\n        gr.sync_block.__init__(\n\
       \            self,\n            name='One Hot to Linear Coordinate Converter',\
       \   # will show up in GRC\n            in_sig=[(np.uint8, 16)],\n          \
       \  out_sig=[int]\n        )\n        # if an attribute with the same name as\
       \ a parameter is found,\n        # a callback is registered (properties work,\
       \ too).\n        # self.example_param = example_param\n\n    def work(self,\
       \ input_items, output_items):\n        # convert presence values into one dimensional\
-      \ character coordinate\n\n        # first, assign to readable values\n     \
-      \   # is697present = input_items[0][0]\n        # is712present = input_items[1][0]\n\
-      \n        # is1209present = input_items[2][0]\n        # is1336present = input_items[3][0]\n\
-      \n        # colCoord = 0*input_items[0][0] + 1*input_items[1][0] + 2*input_items[2][0]\
-      \ + 3*input_items[3][0]\n        # rowCoord = 0*input_items[4][0] + 1*input_items[5][0]\n\
-      \n        input_sum = 0\n        coordinate = 0\n        for n in range(0,len(input_items[0][0])):\n\
-      \            input_sum += input_items[0][0][n]\n            coordinate += n*input_items[0][0][n]\n\
-      \n        if input_sum == 0:\n            coordinate = 99\n\n        # then,\
-      \ output the coordinate to GNU Radio\n        output_items[0][:] = coordinate\n\
-      \n        return len(output_items[0])\n"
+      \ character coordinate\n\n        input_sum = 0\n        coordinate = 0\n  \
+      \      for n in range(0,len(input_items[0][0])):\n            input_sum += input_items[0][0][n]\n\
+      \            coordinate += n*input_items[0][0][n]\n\n        if input_sum ==\
+      \ 0:\n            coordinate = 99\n\n        # then, output the coordinate to\
+      \ GNU Radio\n        output_items[0][:] = coordinate\n\n        return len(output_items[0])\n"
     affinity: ''
     alias: ''
     comment: ''
-    example_param: '1.0'
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: ('One Hot to Linear Coordinate Converter', 'blk', [('example_param',
-      '1.0')], [('0', 'byte', 16)], [('0', 'int', 1)], 'Embedded Python Block example
-      - a simple multiply const', [])
+    _io_cache: ('One Hot to Linear Coordinate Converter', 'blk', [], [('0', 'byte',
+      16)], [('0', 'int', 1)], 'arguments to this function show up as parameters in
+      GRC', [])
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [784, 224.0]
+    coordinate: [784, 232.0]
     rotation: 0
     state: enabled
 - name: fir_filter_xxx_0
@@ -315,9 +308,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [320, 416.0]
+    coordinate: [408, 360.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_freq_sink_x_0
   id: qtgui_freq_sink_x
   parameters:
@@ -396,7 +389,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [416, 104.0]
+    coordinate: [320, 432.0]
     rotation: 0
     state: enabled
 - name: qtgui_number_sink
@@ -459,8 +452,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 328.0]
-    rotation: 0
+    coordinate: [648.0, 640]
+    rotation: 270
     state: disabled
 - name: qtgui_number_sink_0
   id: qtgui_number_sink
@@ -522,8 +515,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 584.0]
-    rotation: 0
+    coordinate: [904.0, 640]
+    rotation: 270
     state: disabled
 - name: qtgui_number_sink_1
   id: qtgui_number_sink
@@ -587,7 +580,7 @@ blocks:
     bus_structure: null
     coordinate: [1232, 56.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: zeromq_push_sink_0
   id: zeromq_push_sink
   parameters:
